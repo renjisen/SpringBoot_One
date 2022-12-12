@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rjs.mapper.stuAuthMapper.StuAuthMapper">
+
+    <select id="selectAllRole" resultType="com.rjs.vo.student.StudentRole">
+        select roleid,rolename,roleexplain,rolestatus from role_name
+    </select>
+    <!--地区三级联动-->
+    <select id="getAuthParent" resultType="com.rjs.vo.student.Auth">
+    select auth_id as authNameid,auth_name as authname from sys_authname where parent_id is NULL or parent_id = ''
+    </select>
+
+    <select id="getAuthSon" resultType="com.rjs.vo.student.Auth">
+    select auth_id as authNameid,auth_name as authname from sys_authname where parent_id = #{authid}
+    </select>
+
+<!--    一对多-->
+    <select id="selectRoleAuthandName" parameterType="Integer" resultMap="a">
+        select ro.roleid,ro.rolename,au.auth_id as authid ,sy.auth_name as authname,sy.auth_id as authNameid
+        from role_name as ro,role_auth as au,sys_authname as sy
+        where au.role_id=ro.roleid and au.auth_id=sy.auth_id and ro.roleid=#{roleid}
+    </select>
+    <resultMap id="a" type="com.rjs.vo.student.StudentRole" autoMapping="true">
+        <id property="roleid" column="roleid"></id>
+        <collection property="roleAuthList" ofType="com.rjs.vo.student.RoleAuth" autoMapping="true">
+            <id property="authid" column="auth_id"></id>
+            <association property="auth" javaType="com.rjs.vo.student.Auth" autoMapping="true">
+                <id property="authNameid" column="auth_id"></id>
+            </association>
+        </collection>
+    </resultMap>
+
+<!--    查询用户名和角色名称，放在一张表上-->
+    <select id="selectStuAndRole" resultMap="b" >
+        SELECT st.user_id,st.uname,st.age,str.role_id as roleid,str.userstatus as userstatus,ro.rolename,ro.rolestatus
+        from student as st,student_role as str,role_name as ro
+        WHERE st.user_id=str.user_id AND str.role_id=ro.roleid
+            <if test="uname != null and uname != ''">
+                and st.uname=#{uname}
+            </if>
+    </select>
+    <resultMap id="b" type="com.rjs.vo.student.Student" autoMapping="true">
+        <id property="userid" column="user_id"></id>
+        <association property="stuUseridRoleid" javaType="com.rjs.vo.student.StuUseridRoleid" autoMapping="true">
+            <id property="userid" column="user_id"></id>
+            <association property="studentRole" javaType="com.rjs.vo.student.StudentRole" autoMapping="true">
+                <id property="roleid" column="roleid"></id>
+            </association>
+        </association>
+    </resultMap>
+
+
+<!--    添加角色信息-->
+    <insert id="insertRoleName" parameterType="com.rjs.vo.student.StudentRole" useGeneratedKeys="true" keyColumn="role_id" keyProperty="roleid">
+        insert into role_name(rolename,roleexplain,rolestatus) values (#{rolename},#{roleexplain},#{rolestatus})
+    </insert>
+    <insert id="insertRoleAuth">-- 添加角色的权限
+        insert into role_auth(role_id,auth_id) values (#{roleid},#{authid})
+    </insert>
+
+<!--    更新角色和权限信息-->
+    <update id="updateRoleInfo">
+        update role_name set rolename=#{rolename},roleexplain=#{roleexplain},rolestatus=#{rolestatus} where roleid=#{roleid}
+    </update>
+    <delete id="deleRoleAuthById">
+        delete from role_auth where role_id=#{roleid}
+    </delete>
+
+<!--    更新个人用户的角色信息-->
+    <update id="updateStuName" parameterType="com.rjs.vo.student.Student" useGeneratedKeys="true" keyColumn="user_id" keyProperty="userid">
+        update student set uname=#{uname} where user_id=#{userid}
+    </update>
+    <update id="updateStuRole">
+        update student_role set role_id=#{roleid},userstatus=#{userstatus} where user_id=#{userid}
+    </update>
+
+
+
+
+
+
+
+
+
+</mapper>

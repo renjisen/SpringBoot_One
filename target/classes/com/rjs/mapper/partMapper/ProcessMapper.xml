@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rjs.mapper.partMapper.ProcessMapper">
+    
+    <insert id="addPartProcess" useGeneratedKeys="true" keyColumn="processid" keyProperty="processid">
+        insert into processtable (processname,processnumber,equipid,equipnumber,fileurlone,partid)
+        values (#{processname},#{processnumber},#{equipid},#{equipnumber},#{fileurlone},#{partid});
+    </insert>
+
+    <select id="selectCheckById" resultType="com.rjs.vo.part.CheckManage">
+        SELECT ch.checkid,ch.checkname,ch.checkchar,ch.firstpartnum,ch.zhongpartnum,ch.endpartnum,ch.recordmethod
+        from checkedtable as ch WHERE ch.processid=#{processid};
+    </select>
+
+    <insert id="addCheck">
+      insert into checkedtable (checkname,checkchar,firstpartnum,processid,zhongpartnum,endpartnum,recordmethod)
+      values (#{checkname},#{checkchar},#{firstpartnum},#{processid},#{zhongpartnum},#{endpartnum},#{recordmethod});
+    </insert>
+
+    <update id="updateCheckById">
+        update checkedtable set checkname = #{checkname},checkchar = #{checkchar},firstpartnum = #{firstpartnum}
+        where checkid=#{checkid};
+    </update>
+
+    <select id="selectCheckById2" resultType="com.rjs.vo.part.CheckManage">
+         SELECT ch.checkname,ch.checkchar,ch.firstpartnum,ch.processid
+        from checkedtable as ch WHERE ch.processid=#{processid} and ch.checkid=#{checkid}
+    </select>
+
+    <select id="selectProcessById3" resultType="com.rjs.vo.part.Process">
+        SELECT p.processname,p.processnumber,p.equipnumber,e.equipname,p.equipid,p.fileurlone,p.partid
+        FROM processtable as p LEFT JOIN equipname as e ON p.equipid=e.id
+        WHERE p.partid=#{partid} and p.processid=#{processid};
+    </select>
+
+    <select id="selectProcessById4" resultType="com.rjs.vo.part.Process">--   复制的时候
+        SELECT p.processname,p.processnumber,p.equipnumber,e.equipname,p.equipid,p.fileurlone,p.partid,p.processid
+        FROM processtable as p LEFT JOIN equipname as e ON p.equipid=e.id
+        WHERE p.partid=#{partid}
+    </select>
+
+    <update id="updatePartProcess">
+        update processtable as p  set processname=#{processname},processnumber=#{processnumber},equipid=#{equipid},
+        equipnumber=#{equipnumber},fileurlone=#{fileurlone}
+        where p.partid=#{partid} and p.processid=#{processid};
+    </update>
+
+    <select id="selectPartById" resultType="com.rjs.vo.part.Part">-- 复制的时候用
+        SELECT p.partid as partid,p.partname as partname,p.partnumber as partnumber ,
+        p.changid as changid,p.parttype as parttype,c.changname
+        FROM parttable as p LEFT JOIN changtable as c ON p.changid=c.changid
+        where p.partid=#{partid}
+    </select>
+
+    <insert id="addPartInfo" useGeneratedKeys="true" keyColumn="partid" keyProperty="partid">
+        insert into parttable (partname,partnumber,changid,parttype) values (#{partname},#{partnumber},#{changid},#{parttype});
+    </insert>
+
+</mapper>

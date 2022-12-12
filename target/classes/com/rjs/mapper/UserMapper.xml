@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rjs.mapper.UserMapper">
+
+    <select id="loginUser" resultType="com.rjs.vo.User">
+
+    select * from  user where uname = #{uname} and password=#{password}
+    </select>
+    <insert id="addUser" >
+
+    insert into user(uname,password,sex,date) values(#{uname},#{password},#{sex},#{date})
+
+    </insert>
+    <insert id="addUser2" useGeneratedKeys="true" keyColumn="userid" keyProperty="userid">
+
+    insert into user(uname,realname,password,age,sex,date,hobby,province,shi,qu)
+    values(#{uname},#{realname},#{password},#{age},#{sex},#{date},#{hobby},#{province},#{shi},#{qu})
+
+    </insert>
+    <insert id="addUserArea">-- 插入个人的地区
+        insert into userarea(userid,areaid) values (#{userid},#{num})
+    </insert>
+
+    <select id="getAllUser" resultType="com.rjs.vo.User">
+        select u.userid,u.uname,u.realname,u.password,u.sex,u.age,u.date,u.hobby,u.province,u.shi,u.qu,u.bumenid,b.bumenname,
+        GROUP_CONCAT(u.province,u.shi,u.qu SEPARATOR ',') as regin
+        from `user` as u LEFT JOIN bumen as b ON u.bumenid=b.bumenid  GROUP BY userid
+    </select>
+
+    <select id="getAllUser2" resultType="com.rjs.vo.User">
+        select * from  user
+    </select>
+
+    <insert id="addUser3"  >
+	 insert into user(uname,password,age,sex,date) values(#{uname},#{password},#{age},#{sex},#{date})
+	</insert>
+
+    <select id="selectUserInfoById" resultType="com.rjs.vo.User">
+        select * from  user where userid=#{userid}
+    </select>
+
+    <select id="searchUser" resultType="com.rjs.vo.User">
+
+    select * from  user where uname = #{uname}
+
+    </select>
+    <delete id="delUser" >
+
+    delete  from  user where userid = #{userid}
+
+    </delete>
+    <update id="updateUser" >
+
+    update user set realname=#{realname},uname = #{uname},password=#{password},age=#{age},sex=#{sex},date=#{date},
+    hobby=#{hobby},province=#{province},shi=#{shi},qu=#{qu},bumenid=#{bumenid}
+    where userid = #{userid}
+
+    </update>
+    <insert id="getUploadFile">
+	 insert into files(filename,summary,content,file1) values (#{filename},#{summary},#{content},#{file1})
+	</insert>
+
+    <select id="getTreeValue" resultType="com.rjs.vo.Tree">
+    select p.parent_id,p.parent_laber,s.son_id,s.son_laber
+	from tree_parent p,tree_son s
+	where p.parent_id=s.parent_id
+    </select>
+
+    <select id="getparent" resultType="com.rjs.vo.TreeData">
+    select id ,lable as label from treetable where parent_id is NULL or parent_id = ''
+    </select>
+
+    <select id="getSecond" resultType="com.rjs.vo.TreeData">
+    select id,lable as label from treetable where parent_id = #{id}
+    </select>
+
+    <select id="getSun" resultType="com.rjs.vo.TreeData">
+    select id,lable as label from treetable where parent_id = #{id}
+    </select>
+    <select id="getparent2" resultType="com.rjs.vo.Cascader">
+    select parent_laber as label ,parent_id as id from tree_parent
+    </select>
+
+    <select id="getSecond2" resultType="com.rjs.vo.Cascader">
+    select s.son_id as id,s.son_laber as label
+	from tree_son s where s.parent_id=#{id}
+    </select>
+
+
+    <select id="getCity" resultType="com.rjs.vo.Citys">
+    select id,city as username from citys
+    </select>
+
+    <insert id="insertCityId">
+	 insert into citys2(id) values (#{id})
+	</insert>
+
+    <select id="queryByJobNumber" resultType="com.rjs.vo.Person">
+        select * from person
+        where id=#{id}
+    </select>
+
+    <update id="updatePerson">
+        update person ser uname=#{uname},password=#{password},sex=#{sex}
+        where id=#{id}
+    </update>
+
+    <insert id="insertPerson">
+        insert into person (id,uname,password,sex) values (#{id},#{uname},#{password},#{sex});
+    </insert>
+
+    <insert id="addProcedureAndNumber" parameterType="com.rjs.vo.Equip" useGeneratedKeys="true" keyColumn="e_number" keyProperty="e_number">
+        insert into procedure_name(e_number,e_procedure ,equipid) values (#{e_number},#{e_procedure},#{equipid});
+    </insert>
+
+    <insert id="addProcedureAndEquip" parameterType="com.rjs.vo.Equip" >
+	 insert into procedure_number(e_number,equipnumber) values (#{e_number},#{value1})
+	</insert>
+
+    <insert id="addText">
+        insert into user (text) values (#{text})
+    </insert>
+
+    <select id="selectStudent" resultType="com.rjs.vo.User">
+        select uname,userid  from user where uname=#{uname} and password=#{password};
+    </select>
+
+    <insert id="insertImgUrl">
+        update user set imgurl=#{imgurl}  where userid = #{userid}
+    </insert>
+
+
+
+
+
+</mapper>

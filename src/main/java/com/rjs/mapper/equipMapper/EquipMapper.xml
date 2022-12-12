@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rjs.mapper.equipMapper.EquipMapper">
+
+    <insert id="addequip" parameterType="com.rjs.vo.Equip" useGeneratedKeys="true" keyColumn="id" keyProperty="equipid">
+	 insert into equipname(equipname,status) values (#{equipname},#{status})
+	</insert>
+
+    <insert id="addequipnumber" parameterType="com.rjs.vo.Equip" >
+	 insert into equipnumber(parent_id,equipnumber) values (#{equipid},#{value1})
+	</insert>
+
+    <update id="updateEquipStatus">-- 更改设备的状态
+        update equipname set status=#{status} where id=#{equipid}
+    </update>
+
+    <select id="selectAllEquip" resultType="com.rjs.vo.Equip" >
+        SELECT equipname.id as equipid,equipname.equipname as equipname,equipname.status as status,
+        GROUP_CONCAT(equipnumber.equipnumber SEPARATOR ',') as equipnum
+        FROM equipname,equipnumber WHERE equipname.id=equipnumber.parent_id
+        <if test="equipname != null and equipname != ''">
+            and equipname=#{equipname}
+        </if>
+        GROUP BY equipname.id
+    </select>
+
+    <select id="selectEquipNumber" resultType="com.rjs.vo.Equip" >
+        SELECT  equipnumber.equipnumber as equipnum
+        FROM equipnumber
+        where equipnumber.parent_id=#{equipid}
+    </select>
+
+    <delete id="delEquipNumber">
+        delete from equipnumber where parent_id=#{equipid}
+    </delete>
+
+    <delete id="delEquipNumber2">
+        delete from equipnumber where parent_id=#{equipid}
+    </delete>
+
+
+
+</mapper>

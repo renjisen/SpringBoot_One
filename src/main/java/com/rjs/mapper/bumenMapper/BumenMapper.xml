@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rjs.mapper.bumenMapper.BumenMapper">
+
+    <select id="selectAllBumen" resultType="com.rjs.vo.Bumen">
+        select bu.bumenid as bumenid,bu.bumenname as bumenname,bu.bumenexplain as bumenexplain,bu.bumenstatus as bumenstatus
+        from bumen as bu
+    </select>
+
+    <select id="selectUserByBumenIdNull" resultType="com.rjs.vo.User">
+        SELECT u.userid as userid,u.uname as uname FROM `user` as u
+        WHERE u.bumenid IS null or u.bumenid=''
+    </select>
+
+    <insert id="addBumen"   useGeneratedKeys="true" keyColumn="bumenid" keyProperty="bumenid">
+        insert into bumen (bumenname,bumenexplain,bumenstatus) values (#{bumenname},#{bumenexplain},#{bumenstatus});
+    </insert>
+
+    <update id="updateUserBumen">
+        update user set bumenid = #{bumenid} where userid = #{userid} ;
+    </update>
+
+    <update id="updateBumenById">
+        update bumen set bumenname = #{bumenname},bumenexplain = #{bumenexplain} where bumenid = #{bumenid}
+    </update>
+
+</mapper>

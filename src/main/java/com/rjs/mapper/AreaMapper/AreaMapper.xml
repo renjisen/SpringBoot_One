@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rjs.mapper.AreaMapper.AreaMapper">
+
+    <!--地区三级联动-->
+    <select id="getProvince" resultType="com.rjs.vo.area.Area">
+    select aid as id ,aname as label from area where pid is NULL or pid = ''
+    </select>
+
+    <select id="getCitys" resultType="com.rjs.vo.area.Area">
+    select aid as id,aname as label from area where pid = #{id}
+    </select>
+
+    <select id="getZone" resultType="com.rjs.vo.area.Area">
+    select aid as id,aname as label from area where pid = #{id}
+    </select>
+
+
+
+</mapper>

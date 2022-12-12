@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.rjs.mapper.partMapper.PartMapper">
+
+    <select id="selectPartAll" resultType="com.rjs.vo.part.Part">
+        SELECT p.partid as partid,p.partname as partname,p.partnumber as partnumber ,
+        p.changid as changid,p.parttype as parttype,c.changname
+        FROM parttable as p LEFT JOIN changtable as c ON p.changid=c.changid
+    </select>
+
+    <insert id="addPartInfo">
+        insert into parttable (partname,partnumber,changid,parttype) values (#{partname},#{partnumber},#{changid},#{parttype});
+    </insert>
+
+    <update id="updatePartInfo">
+        update parttable set partname = #{partname},partnumber = #{partnumber},changid = #{changid},parttype = #{parttype}
+        where partid=#{partid};
+    </update>
+
+    <select id="selectProcessById" resultType="com.rjs.vo.part.Process">
+        SELECT p.processid,p.processname,p.processnumber,p.equipnumber,e.equipname,p.equipid
+        FROM processtable as p LEFT JOIN equipname as e ON p.equipid=e.id
+        WHERE p.partid=#{partid}
+    </select>
+
+    <select id="selectProcessById2" resultType="com.rjs.vo.part.Process">--   更新工序的时候
+        SELECT p.processid,p.processname,p.processnumber,p.equipnumber,e.equipname,p.equipid,p.fileurlone,p.partid
+        FROM processtable as p LEFT JOIN equipname as e ON p.equipid=e.id
+        WHERE p.partid=#{partid} and p.processid=#{processid}
+    </select>
+    
+    <select id="selectProEquipnumById" resultType="com.rjs.vo.part.Process">-- 根据工序的id查询出设备的编号
+        SELECT p.processid,p.equipnumber,e.equipname,p.equipid,p.partid
+        FROM processtable as p LEFT JOIN equipname as e ON p.equipid=e.id
+        WHERE p.processid=#{processid}
+    </select>
+
+    <select id="selectPartByChangAndType" resultType="com.rjs.vo.part.Part">
+        select p.partid,p.partname,p.partnumber from parttable  as p where parttype=#{parttype} and changid=#{changid};
+    </select>
+
+    <select id="selectPartNameAndNumById" resultType="com.rjs.vo.part.Part">-- 根据零件的id查询零件的name和编号
+        select p.partname,p.partnumber from parttable  as p where  partid=#{partid};
+    </select>
+
+    <select id="selectProcessNameById" resultType="com.rjs.vo.part.Process">-- 根据processID查询出processname,file路径
+        SELECT p.processname ,p.fileurlone FROM processtable as p
+        WHERE p.processid=#{processid}
+    </select>
+
+
+</mapper>
