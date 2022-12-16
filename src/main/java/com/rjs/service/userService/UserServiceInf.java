@@ -52,5 +52,15 @@ public interface UserServiceInf {
 
     public String loadImgByUserId(int userid);
 
+    public List<User> selectConutByAreaOrSex(User user);
 
+    public List<User> selectConutByRoleId(User user);
+
+    public List<User> selectUserByAreaOrSexOrRole(User user);
+
+    public List<User> selectUserByAreaOrSex(User user);
+
+    public List<User> selectUserByAreaOrRole(User user);
+
+    public List<User> selectUserBySexOrRole(User user);
 }

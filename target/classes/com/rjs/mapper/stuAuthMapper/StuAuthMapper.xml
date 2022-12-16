@@ -14,21 +14,12 @@
     select auth_id as authNameid,auth_name as authname from sys_authname where parent_id = #{authid}
     </select>
 
-<!--    一对多-->
-    <select id="selectRoleAuthandName" parameterType="Integer" resultMap="a">
-        select ro.roleid,ro.rolename,au.auth_id as authid ,sy.auth_name as authname,sy.auth_id as authNameid
-        from role_name as ro,role_auth as au,sys_authname as sy
-        where au.role_id=ro.roleid and au.auth_id=sy.auth_id and ro.roleid=#{roleid}
+    <select id="selectRoleAuthandName" resultType="com.rjs.vo.student.StudentRole">
+        SELECT ro.roleid,ro.rolename,roa.auth_id,s.auth_name from role_name ro
+        LEFT JOIN role_auth roa on roa.role_id=ro.roleid
+        LEFT JOIN sys_authname as s ON roa.auth_id=s.auth_id
+        where ro.roleid=#{roleid}
     </select>
-    <resultMap id="a" type="com.rjs.vo.student.StudentRole" autoMapping="true">
-        <id property="roleid" column="roleid"></id>
-        <collection property="roleAuthList" ofType="com.rjs.vo.student.RoleAuth" autoMapping="true">
-            <id property="authid" column="auth_id"></id>
-            <association property="auth" javaType="com.rjs.vo.student.Auth" autoMapping="true">
-                <id property="authNameid" column="auth_id"></id>
-            </association>
-        </collection>
-    </resultMap>
 
 <!--    查询用户名和角色名称，放在一张表上-->
     <select id="selectStuAndRole" resultMap="b" >

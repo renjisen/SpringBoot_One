@@ -8,8 +8,7 @@
     </insert>
 
     <select id="selectCheckById" resultType="com.rjs.vo.part.CheckManage">
-        SELECT ch.checkid,ch.checkname,ch.checkchar,ch.firstpartnum,ch.zhongpartnum,ch.endpartnum,ch.recordmethod
-        from checkedtable as ch WHERE ch.processid=#{processid};
+        SELECT * from checkedtable as c where processid=#{processid} GROUP BY datetime ASC
     </select>
 
     <insert id="addCheck">

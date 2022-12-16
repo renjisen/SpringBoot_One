@@ -64,7 +64,14 @@ public class ProcessServiceImpl implements ProcessServiceInf{
     }
 
     public List<CheckManage> selectCheckById(Integer processid){
-        return processMapper.selectCheckById(processid);
+        List<CheckManage> checkManageList = processMapper.selectCheckById(processid);
+        checkManageList.stream().forEach(l->{
+            Date d = l.getDatetime();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String dateStr = simpleDateFormat.format(d);
+            l.setDatestr(dateStr);
+        });
+        return checkManageList;
     }
 
     public void  addCheck(CheckManage checkManage){

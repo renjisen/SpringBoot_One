@@ -40,9 +40,10 @@
     </select>
 
     <select id="searchUser" resultType="com.rjs.vo.User">
-
-    select * from  user where uname = #{uname}
-
+        select * from  user where 1=1
+        <if test="uname!=null and uname !='' ">
+            uname = #{uname}
+        </if>
     </select>
     <delete id="delUser" >
 
@@ -128,9 +129,120 @@
     <insert id="insertImgUrl">
         update user set imgurl=#{imgurl}  where userid = #{userid}
     </insert>
+<!--根据省份查询总人数-->
+    <select id="selectConutByAreaOrSex" resultType="com.rjs.vo.User">
+        SELECT u.userid
+        <choose>
+            <when test="qu != null and qu !='' ">
+                , u.qu
+            </when>
+            <when test="shi != null and shi !='' ">
+                , u.shi
+            </when>
+            <when test="province != null and province !='' ">
+                , u.province
+            </when>
+            <when test="sex != null and sex !='' ">
+                , u.sex
+            </when>
+        </choose>
+            from `user` as u where 1=1
+        <choose>
+            <when test="qu != null and qu !='' ">
+                and qu=#{qu}
+            </when>
+            <when test="shi != null and shi !='' ">
+                and shi=#{shi}
+            </when>
+            <when test="province != null and province !='' ">
+                and province=#{province}
+            </when>
+            <when test="sex != null and sex !='' ">
+                and sex=#{sex}
+            </when>
+        </choose>
 
+    </select>
 
+    <select id="selectConutByRoleId" resultType="com.rjs.vo.User">
+        SELECT u.userid, r.rolename from `user` as u, role_name as r where 1=1
+        <choose>
+            <when test="roleid != null and roleid !='' ">
+                and u.roleid=r.roleid and u.roleid=#{roleid}
+            </when>
+        </choose>
+    </select>
 
+    <select id="selectUserByAreaOrSexOrRole" resultType="com.rjs.vo.User">
+        SELECT u.userid
+        <choose>
+            <when test="roleid != null and roleid !='' ">
+                , r.rolename
+            </when>
+            <when test="sex != null and sex !='' ">
+                , u.sex
+            </when>
+            <when test="qu != null and qu !='' ">
+                , u.qu
+            </when>
+        </choose>
+            from user as u ,role_name as r where 1=1
+        <if test="qu != null and qu !='' ">
+            and u.qu=#{qu}
+        </if>
+        <if test="sex != null and sex !='' ">
+            and u.sex=#{sex}
+        </if>
+        <if test="roleid != null and roleid !='' ">
+           and u.roleid=r.roleid and u.roleid=#{roleid}
+        </if>
+    </select>
 
+    <select id="selectUserByAreaOrSex" resultType="com.rjs.vo.User">
+        SELECT u.userid
+        <choose>
+            <when test="sex != null and sex !='' ">
+                , u.sex
+            </when>
+            <when test="qu != null and qu !='' ">
+                , u.qu
+            </when>
+        </choose>
+        from user as u where 1=1
+        <if test="qu != null and qu !='' ">
+            and u.qu=#{qu}
+        </if>
+        <if test="sex != null and sex !='' ">
+            and u.sex=#{sex}
+        </if>
+    </select>
+
+    <select id="selectUserByAreaOrRole" resultType="com.rjs.vo.User">
+       SELECT u.userid
+            <if test="roleid != null and roleid !='' ">
+                , r.rolename
+            </if>
+       from user as u ,role_name as r where 1=1
+            <if test="qu != null and qu !='' ">
+                and u.qu=#{qu}
+            </if>
+            <if test="roleid != null and roleid !='' ">
+                and u.roleid=r.roleid and u.roleid=#{roleid}
+            </if>
+    </select>
+
+    <select id="selectUserBySexOrRole" resultType="com.rjs.vo.User">
+        SELECT u.userid
+        <if test="roleid != null and roleid !='' ">
+            , r.rolename
+        </if>
+        from user as u ,role_name as r where 1=1
+        <if test="sex != null and sex !='' ">
+            and u.sex=#{sex}
+        </if>
+        <if test="roleid != null and roleid !='' ">
+            and u.roleid=r.roleid and u.roleid=#{roleid}
+        </if>
+    </select>
 
 </mapper>

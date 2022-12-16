@@ -1,6 +1,7 @@
 package com.rjs.control.userControl;
 
 import com.rjs.Util.CodeUtil;
+import com.rjs.service.userService.UserServiceInf;
 import com.rjs.vo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

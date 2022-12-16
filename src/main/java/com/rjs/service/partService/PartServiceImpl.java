@@ -92,12 +92,12 @@ public class PartServiceImpl implements PartServiceInf{
                 process1.setFileurlone(strArr[i]);
             }
             if (strArr[i].contains("jpg")){
-                process1.setFileurltwo(strArr[i]);
+                process1.setFileurltwo("D:\\processfile\\"+strArr[i]);
                 //System.out.println(process1.getFileurltwo());
             }
         }
-        String base64 = getBase64Code(process1.getFileurltwo());
-        process1.setFileurltwo(base64);
+        //String base64 = getBase64Code(process1.getFileurltwo());
+       // process1.setFileurltwo(base64);
         return process1;
     }
 }

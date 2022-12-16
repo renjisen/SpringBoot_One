@@ -281,4 +281,55 @@ public class UserControl {
         return "上传成功";
     }
 
+    @RequestMapping(value = "/selectConutByAreaOrSex")
+    @CrossOrigin
+    @ResponseBody
+    public List<User>  selectConutByAreaOrSex(@RequestBody User user){
+        List<User> list = userServiceInf.selectConutByAreaOrSex(user);
+        return list;
+    }
+
+    @RequestMapping(value = "/selectConutByRoleId")
+    @CrossOrigin
+    @ResponseBody
+    public List<User> selectConutByRoleId(@RequestBody User user){
+        List<User> list = userServiceInf.selectConutByRoleId(user);
+        return list;
+    }
+
+    @RequestMapping(value = "/selectUserByAreaOrSexOrRole")
+    @CrossOrigin
+    @ResponseBody
+    public List<User> selectUserByAreaOrSexOrRole(@RequestBody User user){
+        System.out.println(user.getQu()+" "+user.getSex()+" "+user.getRoleid());
+        List<User> list = userServiceInf.selectUserByAreaOrSexOrRole(user);
+        return list;
+    }
+
+    @RequestMapping(value = "/selectUserByAreaOrSex")
+    @CrossOrigin
+    @ResponseBody
+    public List<User> selectUserByAreaOrSex(@RequestBody User user){
+        System.out.println(user.getQu()+" "+user.getSex());
+        List<User> list = userServiceInf.selectUserByAreaOrSex(user);
+        return list;
+    }
+
+    @RequestMapping(value = "/selectUserByAreaOrRole")
+    @CrossOrigin
+    @ResponseBody
+    public List<User> selectUserByAreaOrRole(@RequestBody User user){
+        System.out.println(user.getQu()+" "+user.getRoleid());
+        List<User> list = userServiceInf.selectUserByAreaOrRole(user);
+        return list;
+    }
+
+    @RequestMapping(value = "/selectUserBySexOrRole")
+    @CrossOrigin
+    @ResponseBody
+    public List<User> selectUserBySexOrRole(@RequestBody User user){
+        System.out.println(user.getQu()+" "+user.getRoleid());
+        List<User> list = userServiceInf.selectUserBySexOrRole(user);
+        return list;
+    }
 }

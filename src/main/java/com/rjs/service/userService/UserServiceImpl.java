@@ -9,8 +9,12 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import org.apache.poi.util.StringUtil;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,9 +27,11 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+
 public  class UserServiceImpl implements UserServiceInf {
     @Autowired
     private UserMapper userMapper;
+
     //@Transactional
     public List<User> loginUser(User user){
 
@@ -195,6 +201,27 @@ public  class UserServiceImpl implements UserServiceInf {
        return Base64.getEncoder().encodeToString(b);
     }
 
+    public List<User> selectConutByAreaOrSex(User user){
+        return userMapper.selectConutByAreaOrSex(user);
+    }
 
+    public List<User> selectConutByRoleId(User user){
+        return userMapper.selectConutByRoleId(user);
+    }
 
+    public List<User> selectUserByAreaOrSexOrRole(User user){
+        return userMapper.selectUserByAreaOrSexOrRole(user);
+    }
+
+    public List<User> selectUserByAreaOrSex(User user){
+        return userMapper.selectUserByAreaOrSex(user);
+    }
+
+    public List<User> selectUserByAreaOrRole(User user){
+        return userMapper.selectUserByAreaOrRole(user);
+    }
+
+    public List<User> selectUserBySexOrRole(User user){
+        return userMapper.selectUserBySexOrRole(user);
+    }
 }

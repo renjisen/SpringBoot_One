@@ -1,5 +1,7 @@
 package com.rjs.vo.part;
 
+import java.util.Date;
+
 public class CheckManage {
     private int checkid;
     private String checkname;
@@ -9,6 +11,8 @@ public class CheckManage {
     private int endpartnum;
     private int processid;
     private int recordmethod;
+    private Date datetime;
+    private String datestr;
 
     public int getCheckid() {
         return checkid;
@@ -72,6 +76,22 @@ public class CheckManage {
 
     public void setRecordmethod(int recordmethod) {
         this.recordmethod = recordmethod;
+    }
+
+    public Date getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(Date datetime) {
+        this.datetime = datetime;
+    }
+
+    public String getDatestr() {
+        return datestr;
+    }
+
+    public void setDatestr(String datestr) {
+        this.datestr = datestr;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.rjs.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.rjs.vo.*;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-public interface UserMapper {
+public interface UserMapper extends BaseMapper<User> {
     public List<User> loginUser(User user);
     public void addUser(User user);
     public void addUser2(User user);
@@ -62,4 +63,16 @@ public interface UserMapper {
     public void uploadImg(MultipartFile file);
 
     public void insertImgUrl(User user);
+
+    public List<User> selectConutByAreaOrSex(User user);
+
+    public List<User> selectConutByRoleId(User user);
+
+    public List<User> selectUserByAreaOrSexOrRole(User user);
+
+    public List<User> selectUserByAreaOrSex(User user);
+
+    public List<User> selectUserByAreaOrRole(User user);
+
+    public List<User> selectUserBySexOrRole(User user);
 }
