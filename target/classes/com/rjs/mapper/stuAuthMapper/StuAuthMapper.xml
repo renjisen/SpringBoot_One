@@ -65,12 +65,8 @@
         update student_role set role_id=#{roleid},userstatus=#{userstatus} where user_id=#{userid}
     </update>
 
-
-
-
-
-
-
-
+    <select id="selectRoleNameById" resultType="com.rjs.vo.student.StudentRole">
+        SELECT r.rolename from role_name as r where r.roleid=#{roleid}
+    </select>
 
 </mapper>

@@ -21,4 +21,6 @@ public interface StuServiceInf {
     public List<Student> selectStuAndRole(String uname);
 
     public void updateStuName(Student student);
+
+    public StudentRole selectRoleNameById(Integer roleid);
 }

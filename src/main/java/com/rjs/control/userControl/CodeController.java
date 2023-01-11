@@ -6,6 +6,7 @@ import com.rjs.vo.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,7 @@ public class CodeController {
     @CrossOrigin(origins = "*")
 //    @RequestMapping(value = "/getVerify")
     public void getVerify(HttpServletRequest request, HttpServletResponse response,HttpSession session) {
+        Jedis jedis = new Jedis("192.168.175.132",6379);
         try {
             response.setContentType("image/jpeg");//设置相应类型,告诉浏览器输出的内容为图片
             response.setHeader("Pragma", "No-cache");//设置响应头信息，告诉浏览器不要缓存此内容
@@ -32,7 +34,11 @@ public class CodeController {
             CodeUtil randomValidateCode = new CodeUtil();
             randomValidateCode.getRandcode(request, response);//输出验证码图片方法
             random = (String) session.getAttribute("RANDOMVALIDATECODEKEY");
+
             System.out.println(random);
+            session.setAttribute("testsession",random);
+            jedis.setex("code",60,random);
+            jedis.get("code");
         } catch (Exception e) {
             e.printStackTrace();
 //            logger.error("获取验证码失败>>>>   ", e);
@@ -69,6 +75,6 @@ public class CodeController {
     public String getsession(HttpSession session){
         String random = (String) session.getAttribute("RANDOMVALIDATECODEKEY");
         System.out.println(random);
-        return random;
+        return random+"1234";
     }
 }

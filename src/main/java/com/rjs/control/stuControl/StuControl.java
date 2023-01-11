@@ -5,6 +5,7 @@ import com.rjs.vo.student.Auth;
 import com.rjs.vo.student.RoleAuth;
 import com.rjs.vo.student.Student;
 import com.rjs.vo.student.StudentRole;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -65,6 +66,13 @@ public class StuControl {
     @ResponseBody
     public void updateStuName(@RequestBody Student student){
         stuServiceInf.updateStuName(student);
+    }
+
+    @RequestMapping("selectRoleNameById")//根据角色id查询角色name
+    @CrossOrigin
+    @ResponseBody
+    public StudentRole selectRoleNameById(@Param("roleid") Integer roleid){
+       return stuServiceInf.selectRoleNameById(roleid);
     }
 
 }

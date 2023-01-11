@@ -24,7 +24,12 @@
     <select id="getAllUser" resultType="com.rjs.vo.User">
         select u.userid,u.uname,u.realname,u.password,u.sex,u.age,u.date,u.hobby,u.province,u.shi,u.qu,u.bumenid,b.bumenname,
         GROUP_CONCAT(u.province,u.shi,u.qu SEPARATOR ',') as regin
-        from `user` as u LEFT JOIN bumen as b ON u.bumenid=b.bumenid  GROUP BY userid
+        from `user` as u LEFT JOIN bumen as b ON u.bumenid=b.bumenid
+        where 1=1
+        <if test="uname != null and uname != '' ">
+            and uname=#{uname}
+        </if>
+        GROUP BY userid
     </select>
 
     <select id="getAllUser2" resultType="com.rjs.vo.User">
@@ -244,5 +249,6 @@
             and u.roleid=r.roleid and u.roleid=#{roleid}
         </if>
     </select>
+
 
 </mapper>

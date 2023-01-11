@@ -71,4 +71,8 @@ public class StuServiceImpl implements StuServiceInf {
         System.out.println(student.getUserstatus());
         stuAuthMapper.updateStuRole(stuUseridRoleid);
     }
+
+    public StudentRole selectRoleNameById(Integer roleid){
+      return stuAuthMapper.selectRoleNameById(roleid);
+    }
 }

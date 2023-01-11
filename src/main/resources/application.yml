@@ -1,0 +1,14 @@
+
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/vue_test1
+#    driver-class-name: com.mysql.jdbc.Driver
+#    username: root
+#    password: mysql
+#
+#logging:
+#  file: src/main/resources/myLog.log
+#  level: debug
+
+server:
+  port: 8088

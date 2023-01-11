@@ -1,11 +1,12 @@
 package com.rjs.mapper.stuAuthMapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.rjs.vo.student.*;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
-public interface StuAuthMapper {
+public interface StuAuthMapper extends BaseMapper<StudentRole> {
     public List<StudentRole> selectAllRole();
 
     public List<Auth> getAuthParent();
@@ -27,4 +28,6 @@ public interface StuAuthMapper {
     public void updateStuName(Student student);
 
     public void updateStuRole(StuUseridRoleid stuUseridRoleid);
+
+    public StudentRole selectRoleNameById(Integer roleid);
 }

@@ -224,4 +224,5 @@ public  class UserServiceImpl implements UserServiceInf {
     public List<User> selectUserBySexOrRole(User user){
         return userMapper.selectUserBySexOrRole(user);
     }
+
 }

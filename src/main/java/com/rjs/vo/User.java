@@ -50,5 +50,7 @@ public class User extends BasePojo implements Serializable {
     private String code;
     private int roleid;
     private String rolename;
+    private int pagenum;
+    private int pagesize;
 
 }

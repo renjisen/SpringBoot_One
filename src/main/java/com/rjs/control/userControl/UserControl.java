@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -78,9 +79,9 @@ public class UserControl {
     @CrossOrigin
     @ResponseBody
     public JsonResult getAllUser(@RequestBody User user){
+        System.out.println(user.getPagenum()+" "+user.getPagesize()+" "+user.getUname());
         JsonResult jr = new JsonResult();
-        List<User> list = null;
-        list = userServiceInf.getAllUser(user);
+        List<User> list = userServiceInf.getAllUser(user);
         list.stream().forEach(l->{
             Date d = l.getDate();
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -92,7 +93,7 @@ public class UserControl {
         PageInfo<User> pageInfo = new PageInfo<>(list);
         if(list != null){
             jr.setCode(1);
-            jr.setMsg("查询成功");
+            jr.setMsg("查询成功");/**/
             jr.setDate(pageInfo);
         }else{
             jr.setCode(0);
@@ -255,10 +256,15 @@ public class UserControl {
     @CrossOrigin
     @ResponseBody
     public Object selectStudent(@RequestBody User user){
+        Jedis jedis = new Jedis("192.168.175.132",6379);
+        if(!user.getCode().equals(jedis.get("code"))){
+            return false;
+        }
             JsonResult jr = new JsonResult();
             User user1 =  userServiceInf.selectStudent(user);
             if(user1!=null){
                 String token= UUID.randomUUID().toString();//生成token
+                jedis.setex("token",60*12*60,token);
                 user1.setToken(token);
                 String base64 = userServiceInf.loadImgByUserId(user1.getUserid());//根据id查询出img的base64,传到页面上，才可以显示出头像
                 user1.setBase64(base64);

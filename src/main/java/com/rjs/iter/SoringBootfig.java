@@ -1,5 +1,6 @@
 package com.rjs.iter;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -14,6 +15,8 @@ import java.util.List;
 
 @Configuration
 public class SoringBootfig implements WebMvcConfigurer {
+
+
     @Override
     public void configurePathMatch(PathMatchConfigurer pathMatchConfigurer) {
 
@@ -41,8 +44,8 @@ public class SoringBootfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry interceptorRegistry) {
-        InterceptorRegistration it =  interceptorRegistry.addInterceptor(new MyIterator());
-        //it.addPathPatterns("/**").excludePathPatterns("/userControl/selectStudent","/checkCodeControl/**");
+        InterceptorRegistration it =  interceptorRegistry.addInterceptor(new TokenInterceptor());
+        it.addPathPatterns("/**").excludePathPatterns("/userControl/selectStudent","/Code/**");
 
     }
 
@@ -105,4 +108,6 @@ public class SoringBootfig implements WebMvcConfigurer {
     public MessageCodesResolver getMessageCodesResolver() {
         return null;
     }
+
+
 }

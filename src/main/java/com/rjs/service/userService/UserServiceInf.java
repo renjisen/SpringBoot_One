@@ -63,4 +63,6 @@ public interface UserServiceInf {
     public List<User> selectUserByAreaOrRole(User user);
 
     public List<User> selectUserBySexOrRole(User user);
+
+
 }
